@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  catalog:
+    build: ./catalog_service
+    container_name: catalog_service
+    ports:
+      - "8001:8001"
+    # env, volumes, depends_on vs. gerekirse buraya eklenir
+
+  users:
+    build: ./user_service
+    container_name: user_service
+    ports:
+      - "8002:8002"
