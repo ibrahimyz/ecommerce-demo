@@ -12,17 +12,12 @@ env:
   DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
 jobs:
-  #########################################
-  # 1) PYTEST
-  #########################################
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         service: [catalog_service, user_service]
-    defaults:
-      run:
-        working-directory: ${{ matrix.service }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -30,8 +25,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - run: pip install -r requirements.txt pytest
-      - run: pytest
+      # 1) Bağımlılıkları kur
+      - name: Install deps
+        run: pip install -r requirements.txt pytest
+        working-directory: ${{ matrix.service }}
+
+      # 2) Testleri çalıştır
+      - name: Run pytest
+        run: pytest
+        working-directory: ${{ matrix.service }}
+
 
   #########################################
   # 2) BUILD + PUSH TO DOCKER HUB
