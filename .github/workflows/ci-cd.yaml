@@ -64,7 +64,7 @@ jobs:
   #########################################
   # 3) DEPLOY TO KUBERNETES
   #########################################
-    deploy-dev:
+  deploy-dev:
     needs: build-push
     runs-on: ubuntu-latest
     steps:
@@ -80,3 +80,4 @@ jobs:
           mkdir -p $HOME/.kube               # ← eksik dizini yarat
           echo "${{ secrets.KUBECONFIG_DEV }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config       # ← güvenlik için izinleri daralt
+
